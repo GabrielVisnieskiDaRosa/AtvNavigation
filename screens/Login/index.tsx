@@ -44,7 +44,7 @@ export default function Home (){
                 </TouchableOpacity>
                 
                 <TouchableOpacity style={styles.buttonRP}> 
-                    <Text style={styles.textButtonRP}>Esqueci minha senha</Text> 
+                    <Text style={styles.textButtonRP}>Esqueci minha senha.</Text> 
                 </TouchableOpacity>
 
             </LinearGradient> 
