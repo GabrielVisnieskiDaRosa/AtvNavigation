@@ -10,6 +10,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
 import React from "react";
 import { Float } from "react-native/Libraries/Types/CodegenTypes";
+import { TextInputMask } from "react-native-masked-text";
 
 type AgeScreenNavigationProp = NavigationProp<ParamListBase>;
 
@@ -27,6 +28,7 @@ export default function Age({ route }: AgeProps) {
   const navigation = useNavigation<AgeScreenNavigationProp>();
 
   const [age, setAge] = useState("");
+  const [cpf, setCpf] = useState("")
 
   const { name } = route.params;
 
@@ -55,6 +57,14 @@ export default function Age({ route }: AgeProps) {
               style={styles.textInput}
               onChangeText={setAge}
               keyboardType="numeric"
+            />
+
+            <Text style={styles.textCPF}>Qual seu CPF?</Text>
+            <TextInputMask
+            style={styles.textInput}
+            type="cpf"
+            onChangeText={setCpf}
+            keyboardType="numeric"
             />
           </View>
         </View>

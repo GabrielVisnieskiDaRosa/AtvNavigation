@@ -38,7 +38,14 @@ export const styles = StyleSheet.create({
   },
 
   textAge: {
-    marginTop: 150,
+    marginTop: 50,
+    marginLeft: 25,
+    color: "#FFf",
+    fontSize: 25,
+  },
+
+  textCPF:{
+    marginTop: 5,
     marginLeft: 25,
     color: "#FFf",
     fontSize: 25,

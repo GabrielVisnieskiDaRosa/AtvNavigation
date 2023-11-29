@@ -8,6 +8,7 @@ import {
   useNavigation,
 } from "@react-navigation/native";
 import { Float } from "react-native/Libraries/Types/CodegenTypes";
+import { TextInputMask } from "react-native-masked-text";
 
 type CarScreenNavigationProp = NavigationProp<ParamListBase>;
 
@@ -26,6 +27,7 @@ export default function Car({ route }: CarProps) {
   const [car, setCar] = useState("");
   const [year, setYear] = useState("");
   const [valorBase, setValorBase] = useState("");
+  const [placa, setPlaca] = useState("");
 
   const navigation = useNavigation<CarScreenNavigationProp>();
 
@@ -54,13 +56,27 @@ export default function Car({ route }: CarProps) {
           <TextInput style={styles.textInput} onChangeText={setCar} />
 
           <Text style={styles.textYear}>Qual o ano do seu carro</Text>
-          <TextInput style={styles.textInput} keyboardType="numeric" onChangeText={setYear} />
+          <TextInput
+            style={styles.textInput}
+            keyboardType="numeric"
+            onChangeText={setYear}
+          />
 
           <Text style={styles.textYear}>Qual o valor do seu carro</Text>
-          <TextInput style={styles.textInput} keyboardType="numeric" onChangeText={setValorBase} />
-        </View>
+          <TextInput
+            style={styles.textInput}
+            keyboardType="numeric"
+            onChangeText={setValorBase}
+          />
 
-        
+          <Text style={styles.textPlaca}>Qual a placa?</Text>
+          <TextInputMask
+            style={styles.textInput}
+            type="custom"
+            onChangeText={setPlaca}
+            keyboardType="numeric"
+          />
+        </View>
 
         <View style={styles.containerHeader}>
           <TouchableOpacity style={styles.button} onPress={handleNext}>
