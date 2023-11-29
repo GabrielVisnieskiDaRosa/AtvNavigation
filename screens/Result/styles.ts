@@ -36,7 +36,7 @@ export const styles = StyleSheet.create({
     height: 50,
     borderRadius: 10,
     marginLeft: 25,
-    marginTop: 10,
+    marginTop: 5,
     fontSize: 25,
     borderColor: "#000",
     textAlign: "center",
@@ -79,4 +79,10 @@ export const styles = StyleSheet.create({
     marginTop: 10,
     marginLeft: 170,
   },
+
+  checkBox:{
+    marginLeft:25
+  }
+
+
 });
