@@ -9,10 +9,7 @@ import {
 } from "@react-navigation/native";
 import { Float } from "react-native/Libraries/Types/CodegenTypes";
 
-
 type ResultScreenNavigationProp = NavigationProp<ParamListBase>;
-
-
 
 type ResultScreenRouteProp = {
   params: {
@@ -20,6 +17,7 @@ type ResultScreenRouteProp = {
     car: string;
     age: string;
     year: string;
+    valorBase: string;
   };
 };
 
@@ -28,40 +26,55 @@ interface ResultProps {
 }
 
 export default function Result({ route }: ResultProps) {
-
-const navigation = useNavigation<ResultScreenNavigationProp>();
+  const navigation = useNavigation<ResultScreenNavigationProp>();
 
   const { name } = route.params;
   const { car } = route.params;
   const { age } = route.params;
   const { year } = route.params;
+  const { valorBase } = route.params;
 
   const [result, setResult] = useState(0);
   const [porcentagem, setPorcentagem] = useState(0);
   const [resultAge, setResultAge] = useState(0);
   const [total, setTotal] = useState(0);
+  const [base, setBase] = useState(0);
 
   useEffect(() => {
-    let conta;
-
-    if (parseInt(age) < 22) {
-      setPorcentagem(1000 * 0.2);
-      conta = 1000 + porcentagem;
-      setResult(conta);
-    } else if (parseInt(age) >= 22 && parseInt(age) <= 28) {
-      setPorcentagem(1000 * 0.18);
-      conta = 1000 + porcentagem;
-      setResult(conta);
+    let contaBase;
+    if (parseInt(valorBase) > 100000) {
+      contaBase = 2000;
+      setBase(contaBase);
+    } else if (parseInt(valorBase) >= 50000 && parseInt(valorBase) <= 100000) {
+      contaBase = 1500;
+      setBase(contaBase);
     } else {
-      setPorcentagem(1000 * 0.15);
-      conta = 1000 - porcentagem;
-      setResult(conta);
+      contaBase = 1000;
+      setBase(contaBase);
     }
   });
 
   useEffect(() => {
     let conta;
 
+    if (parseInt(age) < 22) {
+      setPorcentagem(base * 0.2);
+      conta = base + porcentagem;
+      setResult(conta);
+    } else if (parseInt(age) >= 22 && parseInt(age) <= 28) {
+      setPorcentagem(base * 0.18);
+      conta = base + porcentagem;
+      setResult(conta);
+    } else {
+      setPorcentagem(base * 0.15);
+      conta = base - porcentagem;
+      setResult(conta);
+    }
+  });
+
+  useEffect(() => {
+    let conta;
+    let reduzir;
     if (parseInt(year) < 2000) {
       conta = result * 0.3;
       setResultAge(conta);
@@ -73,14 +86,20 @@ const navigation = useNavigation<ResultScreenNavigationProp>();
       setResultAge(conta);
     } else {
       conta = result * 0.1;
+
       setResultAge(conta);
     }
   });
 
   useEffect(() => {
     let conta;
-    conta = result + resultAge;
-    setTotal(conta);
+    if (parseInt(year) >= 2016) {
+      conta = result - resultAge;
+      setTotal(conta);
+    } else {
+      conta = result + resultAge;
+      setTotal(conta);
+    }
   });
 
   function handleNext() {
@@ -88,7 +107,7 @@ const navigation = useNavigation<ResultScreenNavigationProp>();
   }
 
   function handleBack() {
-    navigation.navigate("car", {age});
+    navigation.navigate("car", { age });
   }
 
   return (
@@ -103,7 +122,7 @@ const navigation = useNavigation<ResultScreenNavigationProp>();
 
         <View style={styles.containerResult}>
           <TextInput style={styles.textInput}>
-            <Text style={styles.textResult}>Base R$ 1.000,00</Text>
+            <Text style={styles.textResult}>Base R$ {base}</Text>
           </TextInput>
 
           <TextInput style={styles.textInput}>
