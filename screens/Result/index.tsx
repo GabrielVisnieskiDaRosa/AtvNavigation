@@ -8,6 +8,7 @@ import {
   useNavigation,
 } from "@react-navigation/native";
 import { Float } from "react-native/Libraries/Types/CodegenTypes";
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 type ResultScreenNavigationProp = NavigationProp<ParamListBase>;
 
@@ -34,73 +35,90 @@ export default function Result({ route }: ResultProps) {
   const { year } = route.params;
   const { valorBase } = route.params;
 
-  const [result, setResult] = useState(0);
+  const [valueAge, setValueAge] = useState(0);
   const [porcentagem, setPorcentagem] = useState(0);
-  const [resultAge, setResultAge] = useState(0);
+  const [porcentagemYear, setPorcentagemYear] = useState(0);
+
+  const [valueYear, setValueYear] = useState(0);
   const [total, setTotal] = useState(0);
   const [base, setBase] = useState(0);
+  const [checkCheckBoxState, setCheckBoxState] = useState(false);
+  const [iconMoeda, setIconMoeda] = useState("");
+
+  const precoDolar = 5.0;
 
   useEffect(() => {
-    let contaBase;
+    calculaReal();
+  }, []);
+
+  function calculaReal() {
+    var valorBaseInicio = calcBase();
+    var valorTotal = valorBaseInicio;
+
+    var valorPorIdade = calcAge(valorTotal);
+    valorTotal = valorTotal + valorPorIdade;
+
+    var valorPorAno = calcYear(valorTotal);
+    valorTotal = valorTotal + valorPorAno;
+
+    setIconMoeda("R$");
+    setValueAge(valorPorIdade);
+    setValueYear(valorPorAno);
+    setBase(valorBaseInicio);
+    setTotal(valorTotal);
+  }
+
+  function calcBase() {
+    var baseInicial = 1000;
     if (parseInt(valorBase) > 100000) {
-      contaBase = 2000;
-      setBase(contaBase);
+      baseInicial = 2000;
     } else if (parseInt(valorBase) >= 50000 && parseInt(valorBase) <= 100000) {
-      contaBase = 1500;
-      setBase(contaBase);
+      baseInicial = 1500;
     } else {
-      contaBase = 1000;
-      setBase(contaBase);
+      baseInicial = 1000;
     }
-  });
 
-  useEffect(() => {
-    let conta;
+    return baseInicial;
+  }
 
+  function calcAge(valorTotal: number) {
+    var valorIdade = 0;
+    var porcentagem = 0
     if (parseInt(age) < 22) {
-      setPorcentagem(base * 0.2);
-      conta = base + porcentagem;
-      setResult(conta);
+      valorIdade = valorTotal * 0.2;
+      valorIdade = valorTotal + valorIdade;
     } else if (parseInt(age) >= 22 && parseInt(age) <= 28) {
-      setPorcentagem(base * 0.18);
-      conta = base + porcentagem;
-      setResult(conta);
+      valorIdade = valorTotal * 0.18;
+      valorIdade = valorTotal + valorIdade;
     } else {
-      setPorcentagem(base * 0.15);
-      conta = base - porcentagem;
-      setResult(conta);
+      porcentagem = valorTotal * -0.15;
+      valorIdade = porcentagem;
     }
-  });
+    setPorcentagem(porcentagem)
+    return valorIdade;
+  }
 
-  useEffect(() => {
-    let conta;
-    let reduzir;
+  function calcYear(valorTotal: number) {
+    var valueYear = 0;
+    var valorPorcentagem = 0;
+
     if (parseInt(year) < 2000) {
-      conta = result * 0.3;
-      setResultAge(conta);
+      valueYear = valorTotal * 0.3;
+      valueYear = valorTotal + valueYear;
+
     } else if (parseInt(year) >= 2000 && parseInt(year) <= 2009) {
-      conta = result * 0.15;
-      setResultAge(conta);
+      valueYear = valorTotal * 0.15;
+      valueYear = valorTotal + valueYear;
+
     } else if (parseInt(year) >= 2010 && parseInt(year) <= 2015) {
-      conta = 0;
-      setResultAge(conta);
+      valueYear = 0;
     } else {
-      conta = result * 0.1;
-
-      setResultAge(conta);
+      valorPorcentagem = valorTotal * -0.1;
+      valueYear = valorPorcentagem
+      setPorcentagemYear(valorPorcentagem);
     }
-  });
-
-  useEffect(() => {
-    let conta;
-    if (parseInt(year) >= 2016) {
-      conta = result - resultAge;
-      setTotal(conta);
-    } else {
-      conta = result + resultAge;
-      setTotal(conta);
-    }
-  });
+    return valueYear;
+  }
 
   function handleNext() {
     navigation.navigate("home");
@@ -108,6 +126,19 @@ export default function Result({ route }: ResultProps) {
 
   function handleBack() {
     navigation.navigate("car", { age });
+  }
+
+  function convercao() {
+    var valorBaseDolar = base / precoDolar;
+    var valorTotalDolar = total / precoDolar;
+    var valorPorIdadeDolar = valueAge / precoDolar;
+    var valorPorAnoDolar = valueYear / precoDolar;
+
+    setBase(valorBaseDolar);
+    setTotal(valorTotalDolar);
+    setValueAge(valorPorIdadeDolar);
+    setValueYear(valorPorAnoDolar);
+    setIconMoeda("$");
   }
 
   return (
@@ -121,20 +152,48 @@ export default function Result({ route }: ResultProps) {
         </View>
 
         <View style={styles.containerResult}>
+          <BouncyCheckbox
+            style={styles.checkBox}
+            text={"Conversão para dólar"}
+            textStyle={{
+              color: "#FFF",
+              fontSize: 20,
+              textDecorationLine: "none",
+            }}
+            fillColor="red"
+            unfillColor="#FFFFFF"
+            innerIconStyle={{ borderWidth: 2 }}
+            onPress={(isChecked: boolean) => {
+              if (isChecked) {
+                convercao();
+              } else {
+                calculaReal();
+              }
+            }}
+          />
+
           <TextInput style={styles.textInput}>
-            <Text style={styles.textResult}>Base R$ {base}</Text>
+            <Text style={styles.textResult}>
+              Base {iconMoeda} {base}
+            </Text>
           </TextInput>
 
           <TextInput style={styles.textInput}>
-            <Text style={styles.textResult}>Por idade R${porcentagem}</Text>
+            <Text style={styles.textResult}>
+              Por idade {iconMoeda} {porcentagem}
+            </Text>
           </TextInput>
 
           <TextInput style={styles.textInput}>
-            <Text style={styles.textResult}>Por ano R${resultAge}</Text>
+            <Text style={styles.textResult}>
+              Por ano {iconMoeda} {porcentagemYear}
+            </Text>
           </TextInput>
         </View>
         <TextInput style={styles.textInput}>
-          <Text style={styles.textResult}>Total R${total}</Text>
+          <Text style={styles.textResult}>
+            Total {iconMoeda} {total}
+          </Text>
         </TextInput>
 
         <View style={styles.containerHeader}>
