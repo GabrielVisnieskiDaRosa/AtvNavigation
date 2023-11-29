@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
 
     textUser:{
         marginTop:150,
-        marginLeft:35,
+        marginLeft:25,
         color:"#FFF",
         fontSize:25
     },
@@ -30,7 +30,7 @@ export const styles = StyleSheet.create({
         width:350,
         height: 60,
         borderRadius:10,
-        marginLeft:35,
+        marginLeft:25,
         marginTop: 10,
         fontSize:25
     },
@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
         marginTop:5,
         color:"#FFF",
         fontSize:25,
-        marginLeft:35,
+        marginLeft:25,
     },
 
     button:{
@@ -47,7 +47,8 @@ export const styles = StyleSheet.create({
         width:350,
         height: 60,
         borderRadius:10,
-        marginLeft:35
+        marginTop:50,
+        marginLeft:25
 
     },
 
@@ -63,8 +64,8 @@ export const styles = StyleSheet.create({
         fontSize:15
     },
     buttonRP:{
-        marginTop:70,
-        marginLeft:135
+        marginTop:90,
+        marginLeft:125
     }
     
 

@@ -1,40 +1,73 @@
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { View, Text, TouchableOpacity } from "react-native";
+import {
+  NavigationProp,
+  ParamListBase,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
+import { View, Text, TouchableOpacity, TextInput, Button } from "react-native";
 import { styles } from "./styles";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
+import React from "react";
+import { Float } from "react-native/Libraries/Types/CodegenTypes";
 
-export default function Age(){
+type AgeScreenNavigationProp = NavigationProp<ParamListBase>;
 
+type AgeScreenRouteProp = {
+  params: {
+    name: string; // Aqui você especifica que o parâmetro 'name' é do tipo string
+  };
+};
 
-    const navigation = useNavigation()
+interface AgeProps {
+  route: AgeScreenRouteProp;
+}
 
-    const route = useRoute()
-    const {name} = route.params
+export default function Age({ route }: AgeProps) {
+  const navigation = useNavigation<AgeScreenNavigationProp>();
 
-    function handleBack(){
-        navigation.navigate("home")
-    }
+  const [age, setAge] = useState("");
 
-    return(
-        <View style={styles.container}>
+  const { name } = route.params;
 
-            <LinearGradient colors={["#5374B6", "#750202"]} style={styles.container}>
-                <View style={styles.containerTittle}>
-                    <Text style={styles.tittle}>SIMULACAR</Text>
-                    <View style={styles.containerInfo}>
-                        <Text>Olá {name.name}, vamos realizar uma simulação para um seguro.</Text>
-                    </View>
-                </View>
+  function handleNext() {
+    navigation.navigate("car", { age, name });
+  }
 
+  function handleBack() {
+    navigation.navigate("home");
+  }
 
+  return (
+    <View style={styles.container}>
+      <LinearGradient colors={["#5374B6", "#750202"]} style={styles.container}>
+        <View style={styles.containerTittle}>
+          <Text style={styles.tittle}>SIMULACAR</Text>
 
+          <View style={styles.containerInfo}>
+            <Text style={styles.textSubtittle}>
+              Olá {name}, vamos realizar uma simulação para um seguro.
+            </Text>
 
-            </LinearGradient>
+            <Text style={styles.textAge}>Qual a sua idade?</Text>
 
-            <TouchableOpacity onPress={handleBack}>
-                <Text>Voltar</Text>
-            </TouchableOpacity>
+            <TextInput
+              style={styles.textInput}
+              onChangeText={setAge}
+              keyboardType="numeric"
+            />
+          </View>
         </View>
-    )
+        <View style={styles.containerHeader}>
+          <TouchableOpacity style={styles.button} onPress={handleNext}>
+            <Text style={styles.textButton}>Próximo</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.buttonRP} onPress={handleBack}>
+            <Text style={styles.textButtonRP}>Voltar</Text>
+          </TouchableOpacity>
+        </View>
+      </LinearGradient>
+    </View>
+  );
 }

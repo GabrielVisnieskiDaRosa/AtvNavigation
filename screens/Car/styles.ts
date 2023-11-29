@@ -4,16 +4,9 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-
-  containerTittle: {
+  containerTitle: {
     marginTop: 100,
-    height: 450,
-    flexDirection: "column",
-  },
-
-  containerInfo: {
-    marginTop: 15,
-    height: 400,
+    height: 500,
     flexDirection: "column",
   },
 
@@ -23,22 +16,22 @@ export const styles = StyleSheet.create({
     flexDirection: "column",
   },
 
-  tittle: {
+  title: {
     fontSize: 40,
     color: "#FFF",
     fontWeight: "bold",
-    marginLeft: 100,
+    marginLeft: 90,
   },
 
-  textSubtittle: {
+  textSubtitle: {
     marginTop: 50,
     marginLeft: 25,
     color: "#FFf",
     fontSize: 25,
   },
 
-  textAge: {
-    marginTop: 150,
+  textCar: {
+    marginTop: 100,
     marginLeft: 25,
     color: "#FFf",
     fontSize: 25,
@@ -54,6 +47,13 @@ export const styles = StyleSheet.create({
     fontSize: 25,
     borderColor: "#000",
     borderWidth: 2,
+  },
+
+  textYear: {
+    marginTop: 10,
+    marginLeft: 25,
+    color: "#FFf",
+    fontSize: 25,
   },
 
   button: {
@@ -77,7 +77,7 @@ export const styles = StyleSheet.create({
     fontSize: 15,
   },
   buttonRP: {
-    marginTop: 60,
+    marginTop: 10,
     marginLeft: 170,
   },
 });
