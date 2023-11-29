@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
   },
 
   textCar: {
-    marginTop: 100,
+    marginTop: 30,
     marginLeft: 25,
     color: "#FFf",
     fontSize: 25,
@@ -43,13 +43,20 @@ export const styles = StyleSheet.create({
     height: 50,
     borderRadius: 10,
     marginLeft: 25,
-    marginTop: 10,
+    marginTop: 2,
     fontSize: 25,
     borderColor: "#000",
     borderWidth: 2,
   },
 
   textYear: {
+    marginTop: 10,
+    marginLeft: 25,
+    color: "#FFf",
+    fontSize: 25,
+  },
+
+  textPlaca:{
     marginTop: 10,
     marginLeft: 25,
     color: "#FFf",
